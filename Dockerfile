@@ -4,5 +4,7 @@ WORKDIR /app
 ADD requirements.txt .
 ADD testapp testapp
 RUN pip install -r requirements.txt
-EXPOSE 8080
-CMD exec gunicorn --bind :8080 testapp.testapp:server
+
+ENV PORT 8080
+
+CMD exec gunicorn --bind :$PORT -w 1 --threads 8 --timeout 10 testapp.testapp:server
